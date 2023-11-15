@@ -1,9 +1,10 @@
 'use client';
 
-function RegisterFrom() {
+function RegisterForm() {
   return (
     <form>RegisterFrom</form>
   )
 }
 
-export default RegisterFrom
+export default RegisterForm;
+

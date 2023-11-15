@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import LoginForm from './LoginForm';
-import RegisterFrom from './RegisterFrom';
+import RegisterForm from './RegisterForm';
 
 function LoginRegisterForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,7 +13,7 @@ function LoginRegisterForm() {
     >
       <h1 className="text-6xl italic font-bold text-white">{ isLogin ? 'Login' : 'Register' }</h1>
 
-      { isLogin ? <LoginForm /> : <RegisterFrom/> }
+      { isLogin ? <LoginForm /> : <RegisterForm/> }
 
       <button
         type="button"
@@ -26,4 +26,4 @@ function LoginRegisterForm() {
   )
 }
 
-export default LoginRegisterForm
+export default LoginRegisterForm;
