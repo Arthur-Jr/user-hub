@@ -1,24 +1,25 @@
 'use client';
 
-import { useState } from "react";
+import login from '@/requests/login';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 function LoginForm() {
-  const [formData, setFormData] = useState({ loginOption: '', username: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ loginOption: '', password: '' });
   const [responseMsg, setResponseMsg] = useState('');
   const formFields = ['loginOption', 'password'];
-
-  const checkLoginOption = () => {
-    const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
-    if (EMAIL_REGEX.test(formData.loginOption)) {
-      setFormData({ ...formData, email: formData.loginOption });
-    } else {
-      setFormData({ ...formData, username: formData.loginOption });
-    }
-  }
+  const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    checkLoginOption();
+    const result = await login(formData);
+
+    if (result.token) {
+      localStorage.setItem("my-user-hub-token", result.token);
+      router.push('/projects');
+    } else {
+      setResponseMsg(result.message);
+    }
   }
 
   return (
@@ -50,7 +51,7 @@ function LoginForm() {
         </button>
 
       </form>
-      { responseMsg.length > 0 && <span className="text-lg italic font-bold text-white">{ responseMsg }</span> }
+      { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black">{ responseMsg }</span> }
     </>
   )
 }
