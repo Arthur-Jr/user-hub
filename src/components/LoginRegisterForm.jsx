@@ -9,7 +9,7 @@ function LoginRegisterForm() {
 
   return (
     <section 
-      className="flex flex-col items-center justify-around bg-primary-color p-5 w-full h-[100vh] sm:h-[600px] sm:w-[500px] sm:rounded-2xl"
+      className="flex flex-col items-center justify-around bg-primary-color p-5 w-full h-[100vh] sm:h-[660px] sm:w-[500px] sm:rounded-2xl"
     >
       <h1 className="text-6xl italic font-bold text-white">{ isLogin ? 'Login' : 'Register' }</h1>
 
