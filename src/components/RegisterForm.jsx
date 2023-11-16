@@ -7,7 +7,8 @@ import register from '@/requests/register';
 function RegisterForm() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [responseMsg, setResponseMsg] = useState('');
-  const formFields = ['username', 'email', 'password'];
+  const [isBtnAble, setIsBtnAble] = useState(true);
+  const formFields = ['username', 'email', 'password', 'confirm password'];
   const router = useRouter();
 
   const handleRegister = async (e) => {
@@ -23,10 +24,28 @@ function RegisterForm() {
     }
   }
 
+  const handleFieldChange = (target, field) => {
+    if (field === formFields[3] || field === formFields[2]) {
+      handleConfirmPassword(target);
+    }
+
+    setFormData({ ...formData, [field]: target.value })
+  }
+
+  const handleConfirmPassword = ({ value }) => {
+    if (value !== formData.password) {
+      setResponseMsg('Passwords not equal!');
+      setIsBtnAble(true);
+    } else {
+      setResponseMsg('');
+      setIsBtnAble(false);
+    }
+  }
+
   return (
     <>
       <form
-        className="flex flex-col items-center justify-around w-full h-[380px] text-white"
+        className="flex flex-col items-center justify-around w-full h-[480px] text-white"
         onSubmit={ (e) => handleRegister(e) }
       >
         { formFields.map((field) => (
@@ -37,11 +56,11 @@ function RegisterForm() {
               <input
                 id={ `${field}-input` }
                 value={ formData[field] }
-                type={ field === 'password' ? 'password' : 'text' }
-                onChange={ ({ target }) => setFormData({ ...formData, [field]: target.value }) }
+                type={ field === formFields[2] || field === formFields[3] ? 'password' : 'text' }
+                onChange={ ({ target }) => handleFieldChange(target, field) }
                 className="mt-2 text-black p-2 rounded-md"
                 required={ field !== 'email'}
-                maxLength={ field === 'password' ? '16' : '30' }
+                maxLength={ field === formFields[2] ? '16' : '30' }
               />
             </label>
 
@@ -53,7 +72,8 @@ function RegisterForm() {
 
         <button
           type="submit"
-          className="text-2xl font-extrabold italic bg-white p-3 w-[200px] text-primary-color rounded-md hover:scale-105"
+          className={`text-2xl font-extrabold italic ${ isBtnAble ? 'bg-gray-900' : 'bg-white' } p-3 w-[200px] text-primary-color rounded-md hover:scale-105`}
+          disabled={ isBtnAble }
         >
           Register
         </button>
