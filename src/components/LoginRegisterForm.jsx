@@ -1,11 +1,21 @@
 'use client';
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
 function LoginRegisterForm() {
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
+  
+  useEffect(() => {
+    const token = localStorage.getItem('my-user-hub-token');
+
+    if (token) {
+      router.push('/projects');
+    }
+  }, [router]);
 
   return (
     <section 
