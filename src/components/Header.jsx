@@ -19,15 +19,16 @@ function Header() {
     if (!token) {
       router.push('/');
     }
-
+    
     getUserData(token).then((result) => {
-      if (result.status) {
+      if (result.username) {
         setUserData(result);
+        console.log(result);
       } else {
         router.push('/');
       }
     });
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem(constants.localStorageTokenName);
