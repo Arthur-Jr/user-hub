@@ -24,6 +24,7 @@ function Header() {
       if (result.username) {
         setUserData(result);
       } else {
+        localStorage.removeItem(constants.localStorageTokenName);
         router.push('/');
       }
     });
