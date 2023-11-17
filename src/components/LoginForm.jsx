@@ -3,6 +3,7 @@
 import login from '@/requests/login';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import constants from '@/constants/data';
 
 function LoginForm() {
   const [formData, setFormData] = useState({ loginOption: '', password: '' });
@@ -15,7 +16,7 @@ function LoginForm() {
     const result = await login(formData);
 
     if (result.token) {
-      localStorage.setItem("my-user-hub-token", result.token);
+      localStorage.setItem(constants.localStorageTokenName, result.token);
       router.push('/projects');
     } else {
       setResponseMsg(result.message);
