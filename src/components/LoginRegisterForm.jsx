@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import constants from '@/constants/data';
 
 function LoginRegisterForm() {
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
   
   useEffect(() => {
-    const token = localStorage.getItem('my-user-hub-token');
+    const token = localStorage.getItem(constants.localStorageTokenName);
 
     if (token) {
       router.push('/projects');

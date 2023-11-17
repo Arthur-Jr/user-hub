@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import register from '@/requests/register';
+import constants from '@/constants/data';
 
 function RegisterForm() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -17,7 +18,7 @@ function RegisterForm() {
     const result = await register(formData);
 
     if (result.token) {
-      localStorage.setItem("my-user-hub-token", result.token);
+      localStorage.setItem(constants.localStorageTokenName, result.token);
       router.push('/projects');
     } else {
       setResponseMsg(result.message);
