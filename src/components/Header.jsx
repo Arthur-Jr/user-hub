@@ -18,6 +18,7 @@ function Header() {
     
     if (!token) {
       router.push('/');
+      return;
     }
     
     getUserData(token).then((result) => {
