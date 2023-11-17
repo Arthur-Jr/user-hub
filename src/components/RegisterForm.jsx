@@ -30,7 +30,7 @@ function RegisterForm() {
       handleConfirmPassword(target);
     }
 
-    setFormData({ ...formData, [field]: target.value })
+    setFormData({ ...formData, [field]: target.value });
   }
 
   const handleConfirmPassword = ({ value }) => {
