@@ -23,7 +23,6 @@ function Header() {
     getUserData(token).then((result) => {
       if (result.username) {
         setUserData(result);
-        console.log(result);
       } else {
         router.push('/');
       }
