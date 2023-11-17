@@ -1,8 +1,14 @@
-import React from 'react'
+import { Header } from "@/components"
 
 function Projects() {
   return (
-    <div>Projects</div>
+    <main>
+      <Header />
+
+      <div className="h-[100vh]">
+        Projects
+      </div>
+    </main>
   )
 }
 
