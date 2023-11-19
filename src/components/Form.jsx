@@ -58,7 +58,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
       }
     }
 
-    if (page === 'register') {
+    if (page === 'register' || page === 'reset') {
       handlePasswordSimilarity();
     }
 
@@ -66,7 +66,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
 
   return (
     <form
-      className={ `flex flex-col items-center justify-around w-full ${ page === 'register' ? 'h-[480px]' : 'h-[380px]' } ${ page === 'add email' ? 'text-black' : 'text-white' }` }
+      className={ `flex flex-col items-center justify-around w-full ${ page === 'register' ? 'h-[480px]' : 'h-[380px]' } ${ page === 'add email' || page === 'reset' ? 'text-black' : 'text-white' }` }
       onSubmit={ (e) => handleButtonClick(e) }
     >
       { fields.map((field) => (
@@ -81,6 +81,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
             className="mt-2 text-black p-2 rounded-md w-full border-2 border-black"
             required={ field === 'email' && page === 'register' ? false : true }
             maxLength={ field.toLowerCase().includes('password') || field === 'username' ? '16' : '30' }
+            minLength={ field.toLowerCase().includes('password') ? '6' : '3' }
           />
 
           { field === 'email' && page === 'register' &&
