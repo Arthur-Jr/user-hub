@@ -6,6 +6,7 @@ import constants from '@/constants/data';
 import login from '@/requests/login';
 import register from '@/requests/register';
 import Form from './Form';
+import endpoints from '@/constants/endpoints';
 
 function LoginRegisterForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,7 +19,7 @@ function LoginRegisterForm() {
     const token = localStorage.getItem(constants.localStorageTokenName);
 
     if (token) {
-      router.push('/projects');
+      router.push(endpoints.projects);
     }
   }, [router]);
 
@@ -34,7 +35,7 @@ function LoginRegisterForm() {
 
     if (result.token) {
       localStorage.setItem(constants.localStorageTokenName, result.token);
-      router.push('/projects');
+      router.push(endpoints.projects);
     } else {
       setResponseMsg(result.message);
     }
