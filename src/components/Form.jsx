@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 function Form({ fields, page, setResponseMsg, handleSubmit }) {
-  const [isBtnDisable, setIsBtnDisable] = useState(false);
+  const [isBtnDisable, setIsBtnDisable] = useState(true);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -20,6 +20,34 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
     newPassword: 'new passowrd',
     usernamePassword: 'username/password',
   };
+
+  useEffect(() => {
+    const formDataDefault = {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '', 
+      newPassword: '', 
+      usernamePassword: ''
+  
+    };
+
+    if (page === 'login') {
+      setIsBtnDisable(false);
+    }
+    
+    setFormData(formDataDefault);
+  }, [page]);
+
+  const handleButtonClick = (e) => {
+    const FIVE_SECONDS = 5000;
+    handleSubmit(e, formData);
+    setIsBtnDisable(true);
+
+    setTimeout(() => {
+      setIsBtnDisable(false);
+    }, FIVE_SECONDS);
+  }
 
   useEffect(() => {
     const handlePasswordSimilarity = () => {
@@ -41,7 +69,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
   return (
     <form
       className={ `flex flex-col items-center justify-around w-full ${ page === 'register' ? 'h-[480px]' : 'h-[380px]' } text-white` }
-      onSubmit={ (e) => handleSubmit(e, formData) }
+      onSubmit={ (e) => handleButtonClick(e) }
     >
       { fields.map((field) => (
         <label htmlFor={ `${field}-input` } key={field} className="flex flex-col items-center text-xl font-bold italic uppercase w-[75%]">
