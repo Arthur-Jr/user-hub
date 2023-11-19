@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from "jwt-decode";
-import { Header } from "@/components"
 import constants from "@/constants/data";
 import addEmail from "@/requests/addEmail";
 import Form from "@/components/Form";
+import endpoints from "@/constants/endpoints";
 
 function AddEmail() {
   const router = useRouter();
@@ -23,7 +23,7 @@ function AddEmail() {
     }
 
     if (token && userData.status !== 0) {
-      router.push('/projects');
+      router.push(endpoints.projects);
     }
   }, [router]);
 
@@ -35,7 +35,7 @@ function AddEmail() {
 
     if (result.token) {
       localStorage.setItem(constants.localStorageTokenName, result.token);
-      router.push('/projects');
+      router.push(endpoints.projects);
     } else {
       setResponseMsg(result.message);
     }
@@ -43,8 +43,6 @@ function AddEmail() {
 
   return (
     <main className="sm:h-[100vh] w-full">
-      <Header />
-
       <div className="w-full flex flex-col items-center">
         <h1 className="text-center text-xl font-bold italic mb-5">Add an email to your test account!</h1>
 
