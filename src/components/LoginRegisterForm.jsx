@@ -58,7 +58,7 @@ function LoginRegisterForm() {
         <Form fields={ loginFormFields } page="login" setResponseMsg={ setResponseMsg } handleSubmit={ handleSubmit } /> :
         <Form fields={ registerFormFields } page="register" setResponseMsg={ setResponseMsg } handleSubmit={ handleSubmit }/>  
       }
-      { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black">{ responseMsg }</span> }
+      { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black text-center">{ responseMsg }</span> }
 
       <button
         type="button"
