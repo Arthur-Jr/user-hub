@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import getUserData from '@/requests/getUserData';
 import TestUserMessage from './TestUserMessage';
 import constants from '@/constants/data';
+import endpoints from '@/constants/endpoints';
 
 function Header() {
   const links = ['projects', 'account'];
@@ -17,7 +18,7 @@ function Header() {
     const token = localStorage.getItem(constants.localStorageTokenName);
     
     if (!token) {
-      router.push('/');
+      router.push(endpoints.home);
       return;
     }
     
@@ -26,14 +27,14 @@ function Header() {
         setUserData(result);
       } else {
         localStorage.removeItem(constants.localStorageTokenName);
-        router.push('/');
+        router.push(endpoints.home);
       }
     });
   }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem(constants.localStorageTokenName);
-    router.push('/');
+    router.push(endpoints.home);
   }
 
   return (
@@ -43,7 +44,7 @@ function Header() {
       <header className="flex items-center justify-between h-20 w-full p-3 sm:p-10 bg-white shadow-md mb-6">
         <div className="flex justify-between italic w-40 text-primary-color font-semibold text-sm sm:text-xl sm:w-60">
           { links.map((link) => (
-            <Link key={link} href={link} className="uppercase hover:underline underline-offset-2">
+            <Link key={link} href={endpoints[link]} className="uppercase hover:underline underline-offset-2">
               {link}
             </Link>
           )) }

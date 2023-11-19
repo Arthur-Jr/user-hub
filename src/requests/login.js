@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080';
 
 function checkLoginOption(userData) {
@@ -13,16 +15,19 @@ export default async function login(userData) {
   try {
     const userLogin = checkLoginOption(userData);
 
-    const response = await fetch(`${BACKEND_URL}/user/login`, {
-      method: 'POST',
+    const response = await axios.post(`${BACKEND_URL}/user/login`, userLogin, {
+      timeout: 10000,
       headers: { 
         'content-type': 'application/json',
       },
-      body: JSON.stringify(userLogin)
     });
-    const result = await response.json();
-    return result;
+
+    return response.data;
   } catch(err) {
-    return err;
+    if (err.code === 'ECONNABORTED') {
+      return { message: 'Server is offline, it take atleast 3 minutes to start server!' };
+    }
+
+    return err.response.data;
   }
 }

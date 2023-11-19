@@ -39,15 +39,12 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
     setFormData(formDataDefault);
   }, [page]);
 
-  const handleButtonClick = (e) => {
-    const FIVE_SECONDS = 5000;
-    setResponseMsg('');
-    handleSubmit(e, formData);
+  const handleButtonClick = async (e) => {
     setIsBtnDisable(true);
+    setResponseMsg('');
+    await handleSubmit(e, formData);
 
-    setTimeout(() => {
-      setIsBtnDisable(false);
-    }, FIVE_SECONDS);
+    setIsBtnDisable(false);
   }
 
   useEffect(() => {
