@@ -7,6 +7,7 @@ import login from '@/requests/login';
 import register from '@/requests/register';
 import Form from './Form';
 import endpoints from '@/constants/endpoints';
+import startServer from '@/requests/startServer';
 
 function LoginRegisterForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,6 +17,7 @@ function LoginRegisterForm() {
   const router = useRouter();
   
   useEffect(() => {
+    startServer();
     const token = localStorage.getItem(constants.localStorageTokenName);
 
     if (token) {
