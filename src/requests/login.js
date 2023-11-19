@@ -2,10 +2,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080';
 
 function checkLoginOption(userData) {
   const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
-  if (EMAIL_REGEX.test(userData.loginOption)) {
-    return { email: userData.loginOption, password: userData.password };
+  if (EMAIL_REGEX.test(userData.usernamePassword)) {
+    return { email: userData.usernamePassword, password: userData.password };
   } else {
-    return { username: userData.loginOption, password: userData.password };
+    return { username: userData.usernamePassword, password: userData.password };
   }
 }
 
