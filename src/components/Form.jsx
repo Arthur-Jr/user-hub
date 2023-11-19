@@ -32,7 +32,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
   
     };
 
-    if (page === 'login') {
+    if (page !== 'register') {
       setIsBtnDisable(false);
     }
     
@@ -41,6 +41,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
 
   const handleButtonClick = (e) => {
     const FIVE_SECONDS = 5000;
+    setResponseMsg('');
     handleSubmit(e, formData);
     setIsBtnDisable(true);
 
@@ -68,7 +69,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
 
   return (
     <form
-      className={ `flex flex-col items-center justify-around w-full ${ page === 'register' ? 'h-[480px]' : 'h-[380px]' } text-white` }
+      className={ `flex flex-col items-center justify-around w-full ${ page === 'register' ? 'h-[480px]' : 'h-[380px]' } ${ page === 'add email' ? 'text-black' : 'text-white' }` }
       onSubmit={ (e) => handleButtonClick(e) }
     >
       { fields.map((field) => (
@@ -80,7 +81,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
             value={ formData[field] }
             type={ field === 'password' || field === 'confirmPassword' ? 'password' : 'text' }
             onChange={ ({ target }) => setFormData({ ...formData, [field]: target.value }) }
-            className="mt-2 text-black p-2 rounded-md w-full"
+            className="mt-2 text-black p-2 rounded-md w-full border-2 border-black"
             required={ field === 'email' && page === 'register' ? false : true }
             maxLength={ field.toLowerCase().includes('password') || field === 'username' ? '16' : '30' }
           />
@@ -94,7 +95,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
       <button
         type="submit"
         disabled={ isBtnDisable }
-        className={`text-2xl font-extrabold italic ${ isBtnDisable ? 'bg-gray-900' : 'bg-white' } p-3 w-[200px] uppercase text-primary-color rounded-md hover:scale-105`}
+        className={`text-2xl font-extrabold italic ${ isBtnDisable ? 'bg-gray-900' : 'bg-white' } border-2 border-black p-3 w-[200px] uppercase text-primary-color rounded-md hover:scale-105 `}
       >
         { page }
       </button>
