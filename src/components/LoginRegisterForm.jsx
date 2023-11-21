@@ -8,6 +8,7 @@ import register from '@/requests/register';
 import Form from './Form';
 import endpoints from '@/constants/endpoints';
 import startServer from '@/requests/startServer';
+import Link from 'next/link';
 
 function LoginRegisterForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -59,6 +60,10 @@ function LoginRegisterForm() {
         <Form fields={ registerFormFields } page="register" setResponseMsg={ setResponseMsg } handleSubmit={ handleSubmit }/>  
       }
       { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black text-center">{ responseMsg }</span> }
+
+      { isLogin &&
+        <Link href="/reset" className="text-lg font-bold italic text-white hover:underline underline-offset-4">Forgot Password</Link>
+      }
 
       <button
         type="button"
