@@ -13,7 +13,7 @@ function LoginRegisterForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [responseMsg, setResponseMsg] = useState('');
   const registerFormFields = ['username', 'email', 'password', 'confirmPassword'];
-  const loginFormFields = ['usernamePassword', 'password'];
+  const loginFormFields = ['usernameEmail', 'password'];
   const router = useRouter();
   
   useEffect(() => {

@@ -10,7 +10,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
     password: '',
     confirmPassword: '', 
     newPassword: '', 
-    usernamePassword: ''
+    usernameEmail: ''
   });
   const fieldsToDisplay = {
     email: 'email',
@@ -18,7 +18,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
     username: 'username',
     confirmPassword: 'confirm password',
     newPassword: 'new passowrd',
-    usernamePassword: 'username/password',
+    usernameEmail: 'username/Email',
   };
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
       password: '',
       confirmPassword: '', 
       newPassword: '', 
-      usernamePassword: ''
+      usernameEmail: ''
   
     };
 
