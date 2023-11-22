@@ -29,7 +29,6 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
       confirmPassword: '', 
       newPassword: '', 
       usernameEmail: ''
-  
     };
 
     if (page !== 'register') {
@@ -75,6 +74,7 @@ function Form({ fields, page, setResponseMsg, handleSubmit }) {
 
           <input
             id={ `${field}-input` }
+            name={ `${field}-input` }
             value={ formData[field] }
             type={ field === 'password' || field === 'confirmPassword' ? 'password' : 'text' }
             onChange={ ({ target }) => setFormData({ ...formData, [field]: target.value }) }
