@@ -1,12 +1,12 @@
 'use client';
 
+import constants from "@/constants/data";
 import { appContext } from "@/context/AppProvider";
+import editUser from "@/requests/editUser";
+import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import editImg from '../../../../public/Edit.png';
 import loadingImg from '../../../../public/loading-img.svg';
-import Image from "next/image";
-import editUser from "@/requests/editUser";
-import constants from "@/constants/data";
 
 function Account() {
   const defaultFormData = {
@@ -107,47 +107,45 @@ function Account() {
     <main className="flex flex-col items-center mb-7">
       <h1 className="text-center text-xl font-bold italic mb-5">Edit Account</h1>
       
-      <form className="flex flex-col items-center justify-around w-full h-[600px]" onSubmit={ (e) => handleSubmit(e) }>
+      { userData.username.length > 0 && <form className="flex flex-col items-center justify-around w-full h-[600px]" onSubmit={ (e) => handleSubmit(e) }>
         { fields.map((field) => (
           <label
             htmlFor={ `${field}-input` }
             key={field}
-            className="flex flex-col md:flex-row items-start text-xl font-bold italic uppercase md:w-[83%] lg:w-[70%] justify-between"
+            className="flex flex-col md:grid grid-cols-2 items-start text-xl font-bold italic uppercase md:w-[80%] lg:w-[70%] justify-between"
           >
             { fieldsToDisplay[field] }
 
-            <div className="flex flex-col">
-              <div className="w-[300px] sm:w-[500px] flex">
-                <input
-                  id={ `${field}-input` }
-                  value={ formData[field] }
-                  name={ `${field}-input` }
-                  type={ field.toLowerCase().includes('password') ? 'password' : 'text' }
-                  onChange={ ({ target }) => setFormData({ ...formData, [field]: target.value }) }
-                  className={ `text-black p-2 rounded-md border-2 border-black w-[85%] disabled:bg-gray-500 disabled:cursor-not-allowed` }
-                  required={ field === 'password' ? true : false }
-                  maxLength={ field.toLowerCase().includes('password') || field === 'username' ? '16' : '30' }
-                  minLength={ field.toLowerCase().includes('password') ? '6' : '3' }
-                  disabled={ disabledField[field] }
-                />
+            <div className="w-[300px] sm:w-[500px] md:w-[390px] lg:w-[500px] flex">
+              <input
+                id={ `${field}-input` }
+                value={ formData[field] }
+                name={ `${field}-input` }
+                type={ field.toLowerCase().includes('password') ? 'password' : 'text' }
+                onChange={ ({ target }) => setFormData({ ...formData, [field]: target.value }) }
+                className={ `text-black p-2 rounded-md border-2 border-black w-[85%] disabled:bg-gray-500 disabled:cursor-not-allowed` }
+                required={ field === 'password' ? true : false }
+                maxLength={ field.toLowerCase().includes('password') || field === 'username' ? '16' : '30' }
+                minLength={ field.toLowerCase().includes('password') ? '6' : '3' }
+                disabled={ disabledField[field] }
+              />
 
-                { field === 'email' &&
-                    <button
-                    type="button"
-                    onClick={ () => handleEditEmailBtn() }
-                    disabled={ userData.status === 0 }
-                    className="border-2 border-black rounded-md hover:scale-105 ml-1 w-[45px] flex items-center justify-center text-red-700 text-2xl disabled:cursor-not-allowed"
-                    title={ userData.status === 0 ? 'Test accounts can\'t edit email!' : 'Edit email!' }
-                  >
-                    { disabledField.email ? <Image src={ editImg } alt="loading" width={25} height={25} /> : 'X' }
-                  </button>
-                }
-              </div>
-
-              { passwordSimilarityMsg.length > 0 && field === 'confirmPassword' &&
-                <span className="text-lg italic font-bold text-center mt-1 text-red-700">{ passwordSimilarityMsg }</span>
+              { field === 'email' &&
+                  <button
+                  type="button"
+                  onClick={ () => handleEditEmailBtn() }
+                  disabled={ userData.status === 0 }
+                  className="border-2 border-black rounded-md hover:scale-105 ml-1 w-[45px] flex items-center justify-center text-red-700 text-2xl disabled:cursor-not-allowed"
+                  title={ userData.status === 0 ? 'Test accounts can\'t edit email!' : 'Edit email!' }
+                >
+                  { disabledField.email ? <Image src={ editImg } alt="loading" width={25} height={25} /> : 'X' }
+                </button>
               }
             </div>
+
+            { passwordSimilarityMsg.length === 0 && field === 'confirmPassword' &&
+              <span className="text-lg italic font-bold text-center mt-1 text-red-700 col-span-1 col-start-2">{ "passwordSimilarityMsg" }</span>
+            }
           </label>
         ))}
 
@@ -158,7 +156,7 @@ function Account() {
         >
           Send
         </button>
-      </form>
+      </form> }
       
       { isLoading && <div className="flex items-center"><Image src={ loadingImg } alt="loading" width={40} height={40} /></div> }
       { responseMsg.length > 0 && <span className="text-lg italic font-bold text-green-700 text-center">{ responseMsg }</span> }
