@@ -1,18 +1,23 @@
 'use client';
 
-import Form from "@/components/Form";
-import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
-import { jwtDecode } from 'jwt-decode';
+import { FormButton } from "@/components/Form/FormButton";
+import { FormField } from "@/components/Form/FormField";
+import { FormInput } from "@/components/Form/FormInput";
+import { FormLabel } from "@/components/Form/FormLabel";
+import constants from "@/constants/data";
 import endpoints from "@/constants/endpoints";
+import handlePasswordSimilarity from "@/globalFuncs/passwordSimilarity";
 import getUserData from "@/requests/getUserData";
 import resetPassword from "@/requests/resetPassword";
-import constants from "@/constants/data";
+import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { FormProvider, useForm } from 'react-hook-form';
 
 function ResetPassword({ params: { token } }) {
   const [responseMsg, setResponseMsg] = useState('');
-  const formFields = ['password', 'confirmPassword'];
   const router = useRouter();
+  const methods = useForm();
 
   useEffect(() => {
     if (!token) {
@@ -36,8 +41,13 @@ function ResetPassword({ params: { token } }) {
     });
   }, [router, token]);
 
-  const handleSubmit = async (e, userData) => {
-    e.preventDefault();
+  const resetPass = async (userData) => {
+    setResponseMsg('');
+
+    if (!handlePasswordSimilarity(userData)) {
+      setResponseMsg('Passwords not equal!');
+      return;
+    }
 
     const result = await resetPassword(token, userData);
 
@@ -59,11 +69,28 @@ function ResetPassword({ params: { token } }) {
   }
 
   return (
-    <main className="flex flex-col items-center w-[100%] p-10">
+    <main className="flex flex-col items-center w-full py-10">
       <h1 className="text-center text-3xl font-bold italic mb-5">Reset Password</h1>
 
-      <div className="flex flex-col items-center w-[400px] h-[550px]">
-        <Form fields={ formFields } setResponseMsg={ setResponseMsg } handleSubmit={ handleSubmit } page="reset" />
+      <div className="flex flex-col items-center w-full sm:w-[600px] h-[550px]">
+
+        <FormProvider { ...methods }>
+          <form className="flex flex-col items-center justify-around w-full h-80 gap-3 px-10" onSubmit={ methods.handleSubmit(resetPass) }>
+            <FormField>
+              <FormLabel htmlFor="password">password</FormLabel>
+              <FormInput type="password" name="password" required minLength="6" maxLength="16"/>
+            </FormField>
+
+            <FormField>
+              <FormLabel htmlFor="confirmPassword">confirm password</FormLabel>
+              <FormInput type="password" name="confirmPassword" required minLength="6" maxLength="16"/>
+            </FormField>
+
+            <FormButton type="submit">
+              Send
+            </FormButton>
+          </form>
+        </FormProvider>
 
         { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black text-center">{ responseMsg }</span> }
       </div>
