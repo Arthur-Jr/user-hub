@@ -143,8 +143,8 @@ function Account() {
               }
             </div>
 
-            { passwordSimilarityMsg.length === 0 && field === 'confirmPassword' &&
-              <span className="text-lg italic font-bold text-center mt-1 text-red-700 col-span-1 col-start-2">{ "passwordSimilarityMsg" }</span>
+            { passwordSimilarityMsg.length > 0 && field === 'confirmPassword' &&
+              <span className="text-lg italic font-bold text-center mt-1 text-red-700 col-span-1 col-start-2">{ passwordSimilarityMsg }</span>
             }
           </label>
         ))}
