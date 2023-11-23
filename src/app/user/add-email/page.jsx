@@ -47,7 +47,7 @@ function AddEmail() {
 
   return (
     <main className="w-full flex flex-col items-center h-96">
-      { userData.username.length === 0 &&
+      { userData.username.length > 0 &&
         <div className="w-full sm:w-[650px] flex flex-col items-center">
           <h1 className="text-center text-xl font-bold italic mb-5">Add an email to your test account!</h1>
 
