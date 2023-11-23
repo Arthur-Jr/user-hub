@@ -1,4 +1,5 @@
-import LoginRegisterForm from './LoginRegisterForm';
 import Header from './Header';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
-export { LoginRegisterForm, Header };
+export { Header, LoginForm, RegisterForm };

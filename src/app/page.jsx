@@ -1,7 +1,6 @@
 'use client';
 
-import LoginForm from "@/components/LoginForm";
-import RegisterForm from "@/components/RegisterForm";
+import { LoginForm, RegisterForm } from "@/components";
 import constants from "@/constants/data";
 import endpoints from "@/constants/endpoints";
 import login from "@/requests/login";
