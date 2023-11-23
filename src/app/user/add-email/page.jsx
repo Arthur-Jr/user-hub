@@ -64,7 +64,7 @@ function AddEmail() {
               </FormField>
 
               <FormButton type="submit">
-                Register
+                Add Email
               </FormButton>
             </form>
           </FormProvider>
