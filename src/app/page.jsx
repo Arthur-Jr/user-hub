@@ -3,6 +3,7 @@
 import { LoginForm, RegisterForm } from "@/components";
 import constants from "@/constants/data";
 import endpoints from "@/constants/endpoints";
+import handlePasswordSimilarity from "@/globalFuncs/passwordSimilarity";
 import login from "@/requests/login";
 import register from "@/requests/register";
 import startServer from "@/requests/startServer";
@@ -25,18 +26,11 @@ export default function Home() {
     }
   }, [router]);
 
-  const handlePasswordSimilarity = (userData) => {
-    if (userData.password.length > 0 && userData.confirmPassword.length > 0 && userData.password === userData.confirmPassword) {
-      setResponseMsg('');
-      return true;
-    }
-
-    setResponseMsg('Passwords not equal!');
-    return false;
-  }
-
   const handleSubmit = async (userData) => {
-    if (!isLogin && !handlePasswordSimilarity(userData)) {
+    setResponseMsg('');
+
+    if (!isLogin && !handlePasswordSimilarity(userData, setResponseMsg)) {
+      setResponseMsg('Passwords not equal!');
       return;
     }
 
