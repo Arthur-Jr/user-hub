@@ -18,27 +18,27 @@ export default function RegisterForm({ registerUser }) {
           onSubmit={ methods.handleSubmit(registerUser) }
         >
           <FormField>
-            <FormLabel htmlFor="username">username</FormLabel>
-            <FormInput type="text" name="username" required minLength="3" maxLength="10"/>
+            <FormLabel className="text-base sm:text-lg" htmlFor="username">username</FormLabel>
+            <FormInput className="p-2 sm:p-3" type="text" name="username" required minLength="3" maxLength="10"/>
           </FormField>
 
           <FormField>
-            <FormLabel htmlFor="email">email</FormLabel>
-            <FormInput type="text" name="email" minLength="6" maxLength="30"/>
+            <FormLabel className="text-base sm:text-lg" htmlFor="email">email</FormLabel>
+            <FormInput className="p-2 sm:p-3" type="text" name="email" minLength="6" maxLength="30"/>
             <FormMessage message="You can create a test account without email!"/>
           </FormField>
 
           <FormField>
-            <FormLabel htmlFor="password">password</FormLabel>
-            <FormInput type="password" name="password" required minLength="6" maxLength="16"/>
+            <FormLabel className="text-base sm:text-lg" htmlFor="password">password</FormLabel>
+            <FormInput className="p-2 sm:p-3" type="password" name="password" required minLength="6" maxLength="16"/>
           </FormField>
 
           <FormField>
-            <FormLabel htmlFor="confirmPassword">confirm password</FormLabel>
-            <FormInput type="password" name="confirmPassword" required minLength="6" maxLength="16"/>
+            <FormLabel className="text-base sm:text-lg" htmlFor="confirmPassword">confirm password</FormLabel>
+            <FormInput className="p-2 sm:p-3" type="password" name="confirmPassword" required minLength="6" maxLength="16"/>
           </FormField>
 
-          <FormButton type="submit">
+          <FormButton type="submit" className="p-2 sm:p-3 text-lg sm:text-2xl">
             Register
           </FormButton>
         </form>

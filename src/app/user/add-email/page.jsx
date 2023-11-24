@@ -39,6 +39,7 @@ function AddEmail() {
 
     if (result.token) {
       localStorage.setItem(constants.localStorageTokenName, result.token);
+      router.refresh();
       router.push(endpoints.projects);
     } else {
       setResponseMsg(result.message);
