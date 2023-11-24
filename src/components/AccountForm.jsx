@@ -23,7 +23,7 @@ export default function AccountForm({ editUser, userData }) {
       setIsEmailDisabled(false); 
     } else {
       setIsEmailDisabled(true);
-      methods.reset({ email: 'test' });
+      methods.reset({ email: userData.email });
     }
   }
 
