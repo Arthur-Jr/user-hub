@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
       <section 
-        className="flex flex-col items-center justify-evenly bg-primary-color pt-5 px-10 w-full h-screen sm:h-[660px] sm:w-[500px] sm:rounded-2xl"
+        className="flex flex-col items-center justify-evenly bg-primary-color pt-5 px-10 w-full h-[600px] sm:h-[660px] sm:w-[500px] sm:rounded-2xl"
       >
         <h1 className="text-5xl italic font-bold text-white mb-2">{ isLogin ? 'Login' : 'Register' }</h1>
 
