@@ -8,9 +8,9 @@ export function FormInput(props) {
   return (
     <input
       id={ props.name }
-      className={ twMerge("mt-2 text-black p-2 rounded-md w-full border-2 border-black", props.className) }
       {...props}
       { ...register(props.name) }
+      className={ twMerge("mt-2 text-black p-2 rounded-md w-full border-2 border-black", props.className) }
     />
   )
 }

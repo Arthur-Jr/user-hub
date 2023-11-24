@@ -4,8 +4,8 @@ import { twMerge } from 'tailwind-merge';
 export function FormField(props) {
   return (
     <div
-      className={ twMerge("w-full flex flex-col items-center", props.className) }
-      {...props}
+    {...props}
+    className={ twMerge("w-full flex flex-col items-center", props.className) }
     />
   )
 }
