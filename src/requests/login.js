@@ -16,18 +16,19 @@ export default async function login(userData) {
     const userLogin = checkLoginOption(userData);
 
     const response = await axios.post(`${BACKEND_URL}/user/login`, userLogin, {
+      withCredentials: true,
       timeout: 10000,
       headers: { 
         'content-type': 'application/json',
       },
     });
-
-    return response.data;
+    console.log(response);
+    return response;
   } catch(err) {
     if (err.code === 'ECONNABORTED') {
       return { message: 'Server is offline, it take atleast 3 minutes to start server!' };
     }
 
-    return err.response.data;
+    return err.response;
   }
 }

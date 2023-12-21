@@ -1,15 +1,16 @@
 'use client';
 
-import { LoginForm, RegisterForm } from "@/components";
-import constants from "@/constants/data";
-import endpoints from "@/constants/endpoints";
-import handlePasswordSimilarity from "@/globalFuncs/passwordSimilarity";
-import login from "@/requests/login";
-import register from "@/requests/register";
-import startServer from "@/requests/startServer";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { LoginForm, RegisterForm } from '@/components';
+import endpoints from '@/constants/endpoints';
+import handlePasswordSimilarity from '@/globalFuncs/passwordSimilarity';
+import getUserData from '@/requests/getUserData';
+import login from '@/requests/login';
+import register from '@/requests/register';
+import startServer from '@/requests/startServer';
+import { HttpStatusCode } from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 
 export default function Home() {
@@ -19,11 +20,11 @@ export default function Home() {
   
   useEffect(() => {
     startServer();
-    const token = localStorage.getItem(constants.localStorageTokenName);
-
-    if (token) {
-      router.push(endpoints.projects);
-    }
+    getUserData().then((user) => {
+      if(user.username) {
+        router.push(endpoints.projects);
+      }
+    });
   }, [router]);
 
   const handleSubmit = async (userData) => {
@@ -42,11 +43,10 @@ export default function Home() {
       result = await register(userData);
     }
 
-    if (result.token) {
-      localStorage.setItem(constants.localStorageTokenName, result.token);
+    if (result.status === HttpStatusCode.Ok || result.status === HttpStatusCode.Created) {
       router.push(endpoints.projects);
     } else {
-      setResponseMsg(result.message);
+      setResponseMsg(result.data.message);
     }
   }
 
