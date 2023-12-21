@@ -3,20 +3,20 @@ import getUserData from './getUserData';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080';
 
-export default async function editUser(token, userData) {
+export default async function editUser(userData) {
   let response = { message: '', status: 201 };
 
   try {
     await axios.put(`${BACKEND_URL}/user`, userData, {
+      withCredentials: true,
       timeout: 10000,
       headers: { 
         'content-type': 'application/json',
-        'authorization': token
       },
     });
 
     if (userData.email) {
-      const data = await getUserData(token);
+      const data = await getUserData();
       response.email = data.email;
     }
 

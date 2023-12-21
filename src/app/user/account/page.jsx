@@ -1,11 +1,10 @@
 'use client';
 
-import { AccountForm } from "@/components";
-import constants from "@/constants/data";
-import { appContext } from "@/context/AppProvider";
-import editUser from "@/requests/editUser";
-import Image from "next/image";
-import { useContext, useState } from "react";
+import { AccountForm } from '@/components';
+import { appContext } from '@/context/AppProvider';
+import editUser from '@/requests/editUser';
+import Image from 'next/image';
+import { useContext, useState } from 'react';
 import loadingImg from '../../../../public/loading-img.svg';
 
 function Account() {
@@ -29,8 +28,7 @@ function Account() {
     }
 
     setIsLoading(true);
-    const token = localStorage.getItem(constants.localStorageTokenName);
-    const result = await editUser(token, editData);
+    const result = await editUser(editData);
     if (result.email) {
       setUserData({ ...userData, email: result.email });
     }
