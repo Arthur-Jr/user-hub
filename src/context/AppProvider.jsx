@@ -6,7 +6,7 @@ import { createContext, useEffect, useState } from 'react';
 export const appContext = createContext();
 
 function AppProvider({ children }) {
-  const [userData, setUserData] = useState({ username: '', email: '', status: '' });
+  const [userData, setUserData] = useState({ username: '', email: '', status: 1 });
 
   useEffect(() => {
     startServer();
