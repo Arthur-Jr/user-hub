@@ -1,48 +1,37 @@
 'use client';
 
-import { FormButton } from "@/components/Form/FormButton";
-import { FormField } from "@/components/Form/FormField";
-import { FormInput } from "@/components/Form/FormInput";
-import { FormLabel } from "@/components/Form/FormLabel";
-import constants from "@/constants/data";
-import endpoints from "@/constants/endpoints";
-import { appContext } from "@/context/AppProvider";
-import addEmail from "@/requests/addEmail";
-import { jwtDecode } from "jwt-decode";
+import { FormButton } from '@/components/Form/FormButton';
+import { FormField } from '@/components/Form/FormField';
+import { FormInput } from '@/components/Form/FormInput';
+import { FormLabel } from '@/components/Form/FormLabel';
+import endpoints from '@/constants/endpoints';
+import { appContext } from '@/context/AppProvider';
+import addEmail from '@/requests/addEmail';
+import { HttpStatusCode } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 function AddEmail() {
   const [responseMsg, setResponseMsg] = useState('');
-  const { userData } = useContext(appContext);
+  const { userData, setUserData } = useContext(appContext);
   const router = useRouter();
   const methods = useForm();
 
   useEffect(() => {
-    const token = localStorage.getItem(constants.localStorageTokenName);
-    let userData;
-
-    if (token) {
-      const { data } = jwtDecode(token);
-      userData = data;
-    }
-
-    if (token && userData.status !== 0) {
+    if (userData.username && userData.status !== 0) {
       router.push(endpoints.projects);
     }
-  }, [router]);
+  }, [router, userData]);
 
-  const addNewEmail = async (userData) => {
-    const token = localStorage.getItem(constants.localStorageTokenName);
-    const result = await addEmail(token, userData);
+  const addNewEmail = async (newData) => {
+    const result = await addEmail(newData);
 
-    if (result.token) {
-      localStorage.setItem(constants.localStorageTokenName, result.token);
-      router.refresh();
+    if (result.status === HttpStatusCode.Ok) {
+      setUserData({ ...userData, status: 1, email: newData.email });
       router.push(endpoints.projects);
     } else {
-      setResponseMsg(result.message);
+      setResponseMsg(result.data.message);
     }
   }
 

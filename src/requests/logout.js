@@ -11,11 +11,9 @@ function checkLoginOption(userData) {
   }
 }
 
-export default async function login(userData) {
+export default async function logout() {
   try {
-    const userLogin = checkLoginOption(userData);
-
-    const response = await axios.post(`${BACKEND_URL}/user/login`, userLogin, {
+    const response = await axios.post(`${BACKEND_URL}/user/logout`, {}, {
       withCredentials: true,
       timeout: 10000,
       headers: { 

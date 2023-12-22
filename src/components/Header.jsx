@@ -1,14 +1,16 @@
 'use client';
 
-import Link from 'next/link';
-import { useContext, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import getUserData from '@/requests/getUserData';
-import TestUserMessage from './TestUserMessage';
+import Loading from '@/app/loading';
 import constants from '@/constants/data';
 import endpoints from '@/constants/endpoints';
 import { appContext } from '@/context/AppProvider';
-import Loading from '@/app/loading';
+import getUserData from '@/requests/getUserData';
+import logout from '@/requests/logout';
+import axios, { HttpStatusCode } from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect } from 'react';
+import TestUserMessage from './TestUserMessage';
 
 function Header() {
   const links = ['projects', 'account'];
@@ -16,27 +18,21 @@ function Header() {
   const { userData, setUserData } = useContext(appContext);
   const router = useRouter();
 
-  useEffect(() => {
-    const token = localStorage.getItem(constants.localStorageTokenName);
-    
-    if (!token) {
-      router.push(endpoints.home);
-      return;
-    }
-    
-    getUserData(token).then((result) => {
-      if (result.username) {
-        setUserData(result);
+  useEffect(() => {   
+    getUserData().then((user) => {
+      if (user.username) {
+        setUserData(user);
       } else {
-        localStorage.removeItem(constants.localStorageTokenName);
         router.push(endpoints.home);
       }
     });
   }, [router, setUserData]);
 
-  const handleLogout = () => {
-    localStorage.removeItem(constants.localStorageTokenName);
-    router.push(endpoints.home);
+  const handleLogout = async () => {
+    const result = await logout();
+    if (result.status === HttpStatusCode.NoContent) {
+      router.push(endpoints.home);
+    } 
   }
 
   return (

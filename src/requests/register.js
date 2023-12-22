@@ -18,17 +18,18 @@ export default async function register(userData) {
 
     const response = await axios.post(`${BACKEND_URL}/user/register`, userRegister, {
       timeout: 10000,
+      withCredentials: true,
       headers: { 
         'content-type': 'application/json',
       },
     });
 
-    return response.data;
+    return response;
   } catch(err) {
     if (err.code === 'ECONNABORTED') {
-      return { message: 'Server is offline, it take atleast 3 minutes to start server!' };
+      return { data: { message: 'Server is offline, it take atleast 3 minutes to start server!' } };
     }
 
-    return err.response.data;
+    return err.response;
   }
 }

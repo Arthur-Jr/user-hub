@@ -1,44 +1,40 @@
 'use client';
 
-import { FormButton } from "@/components/Form/FormButton";
-import { FormField } from "@/components/Form/FormField";
-import { FormInput } from "@/components/Form/FormInput";
-import { FormLabel } from "@/components/Form/FormLabel";
-import constants from "@/constants/data";
-import endpoints from "@/constants/endpoints";
-import handlePasswordSimilarity from "@/globalFuncs/passwordSimilarity";
-import getUserData from "@/requests/getUserData";
-import resetPassword from "@/requests/resetPassword";
+import { FormButton } from '@/components/Form/FormButton';
+import { FormField } from '@/components/Form/FormField';
+import { FormInput } from '@/components/Form/FormInput';
+import { FormLabel } from '@/components/Form/FormLabel';
+import endpoints from '@/constants/endpoints';
+import handlePasswordSimilarity from '@/globalFuncs/passwordSimilarity';
+import getUserData from '@/requests/getUserData';
+import logout from '@/requests/logout';
+import resetPassword from '@/requests/resetPassword';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 function ResetPassword({ params: { token } }) {
   const [responseMsg, setResponseMsg] = useState('');
+  const [isBtnDisable, setIsBtnDisabled] = useState(false);
   const router = useRouter();
   const methods = useForm();
 
   useEffect(() => {
-    if (!token) {
-      localStorage.removeItem(constants.localStorageTokenName);
-      router.push(endpoints.home);
-      return;
-    }
-
-    const { data } = jwtDecode(token);
-    if (!data.reset) {
-      localStorage.removeItem(constants.localStorageTokenName);
-      router.push(endpoints.home);
-      return;
-    }
-
-    getUserData(token).then((result) => {
-      if (!result.username) {
-        localStorage.removeItem(constants.localStorageTokenName);
+    const checkToken = async () => {
+      if (!token) {
         router.push(endpoints.home);
+        return;
       }
-    });
+  
+      const { data } = jwtDecode(token);
+      if (!data.reset) {
+        router.push(endpoints.home);
+        return;
+      }
+    }
+
+    checkToken();
   }, [router, token]);
 
   const resetPass = async (userData) => {
@@ -53,6 +49,7 @@ function ResetPassword({ params: { token } }) {
 
     if (result.status === 204) {
       setResponseMsg(result.message);
+      setIsBtnDisabled(true);
 
       setTimeout(() => {
         router.push(endpoints.home);
@@ -64,7 +61,12 @@ function ResetPassword({ params: { token } }) {
     }
 
     if (result.status === 401) {
-      router.push(endpoints.home);
+      setResponseMsg('Invalid Access!');
+      setIsBtnDisabled(true);
+
+      setTimeout(() => {
+        router.push(endpoints.home);
+      }, 6000);
     }
   }
 
@@ -86,7 +88,7 @@ function ResetPassword({ params: { token } }) {
               <FormInput type="password" name="confirmPassword" required minLength="6" maxLength="16"/>
             </FormField>
 
-            <FormButton type="submit">
+            <FormButton type="submit" disabled={ isBtnDisable }>
               Send
             </FormButton>
           </form>
