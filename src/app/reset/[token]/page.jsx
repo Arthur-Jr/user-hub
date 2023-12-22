@@ -6,17 +6,18 @@ import { FormInput } from '@/components/Form/FormInput';
 import { FormLabel } from '@/components/Form/FormLabel';
 import endpoints from '@/constants/endpoints';
 import handlePasswordSimilarity from '@/globalFuncs/passwordSimilarity';
-import getUserData from '@/requests/getUserData';
-import logout from '@/requests/logout';
 import resetPassword from '@/requests/resetPassword';
 import { jwtDecode } from 'jwt-decode';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import loadingImg from '../../../../public/loading-img.svg';
 
 function ResetPassword({ params: { token } }) {
   const [responseMsg, setResponseMsg] = useState('');
   const [isBtnDisable, setIsBtnDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const methods = useForm();
 
@@ -39,13 +40,16 @@ function ResetPassword({ params: { token } }) {
 
   const resetPass = async (userData) => {
     setResponseMsg('');
+    setIsLoading(true);
 
     if (!handlePasswordSimilarity(userData)) {
+      setIsLoading(false);
       setResponseMsg('Passwords not equal!');
       return;
     }
 
     const result = await resetPassword(token, userData);
+    setIsLoading(false);
 
     if (result.status === 204) {
       setResponseMsg(result.message);
@@ -93,6 +97,12 @@ function ResetPassword({ params: { token } }) {
             </FormButton>
           </form>
         </FormProvider>
+
+        { isLoading && 
+          <div className="flex items-center">
+            <Image src={ loadingImg } alt="loading" className="rounded-full" width={50} height={50} />
+          </div> 
+        }
 
         { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black text-center">{ responseMsg }</span> }
       </div>

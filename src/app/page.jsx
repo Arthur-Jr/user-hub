@@ -8,14 +8,17 @@ import login from '@/requests/login';
 import register from '@/requests/register';
 import startServer from '@/requests/startServer';
 import { HttpStatusCode } from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import loadingImg from '../../public/loading-img.svg';
 
 
 export default function Home() {
   const [isLogin, setIsLogin] = useState(true);
   const [responseMsg, setResponseMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   
   useEffect(() => {
@@ -29,6 +32,7 @@ export default function Home() {
 
   const handleSubmit = async (userData) => {
     setResponseMsg('');
+    setIsLoading(true);
 
     if (!isLogin && !handlePasswordSimilarity(userData, setResponseMsg)) {
       setResponseMsg('Passwords not equal!');
@@ -46,6 +50,7 @@ export default function Home() {
     if (result.status === HttpStatusCode.Ok || result.status === HttpStatusCode.Created) {
       router.push(endpoints.projects);
     } else {
+      setIsLoading(false);
       setResponseMsg(result.data.message);
     }
   }
@@ -66,7 +71,14 @@ export default function Home() {
           <LoginForm login={ handleSubmit } /> :
           <RegisterForm registerUser={ handleSubmit } />  
         }
-        { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black text-center mb-4">{ responseMsg }</span> }
+
+        { isLoading && 
+          <div className="flex items-center">
+            <Image src={ loadingImg } alt="loading" className="rounded-full" width={30} height={30} />
+          </div> 
+        }
+
+        <span className="text-lg italic font-bold text-black text-center mb-4">{ responseMsg }</span>
 
         <div className="flex flex-col justify-between items-center h-16">
           { isLogin &&
