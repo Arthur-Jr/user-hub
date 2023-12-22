@@ -14,7 +14,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 function AddEmail() {
   const [responseMsg, setResponseMsg] = useState('');
-  const { userData } = useContext(appContext);
+  const { userData, setUserData } = useContext(appContext);
   const router = useRouter();
   const methods = useForm();
 
@@ -24,11 +24,11 @@ function AddEmail() {
     }
   }, [router, userData]);
 
-  const addNewEmail = async (userData) => {
-    const result = await addEmail(userData);
+  const addNewEmail = async (newData) => {
+    const result = await addEmail(newData);
 
     if (result.status === HttpStatusCode.Ok) {
-      router.refresh();
+      setUserData({ ...userData, status: 1 });
       router.push(endpoints.projects);
     } else {
       setResponseMsg(result.data.message);
