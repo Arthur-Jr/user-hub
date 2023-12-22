@@ -16,28 +16,21 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 function ResetPassword({ params: { token } }) {
   const [responseMsg, setResponseMsg] = useState('');
+  const [isBtnDisable, setIsBtnDisabled] = useState(false);
   const router = useRouter();
   const methods = useForm();
 
   useEffect(() => {
     const checkToken = async () => {
       if (!token) {
-        await logout();
         router.push(endpoints.home);
         return;
       }
   
       const { data } = jwtDecode(token);
       if (!data.reset) {
-        await logout();
         router.push(endpoints.home);
         return;
-      }
-
-      const user = await getUserData();
-      if (!user.username) {
-        await logout();
-        router.push(endpoints.home);
       }
     }
 
@@ -56,6 +49,7 @@ function ResetPassword({ params: { token } }) {
 
     if (result.status === 204) {
       setResponseMsg(result.message);
+      setIsBtnDisabled(true);
 
       setTimeout(() => {
         router.push(endpoints.home);
@@ -67,7 +61,12 @@ function ResetPassword({ params: { token } }) {
     }
 
     if (result.status === 401) {
-      router.push(endpoints.home);
+      setResponseMsg('Invalid Access!');
+      setIsBtnDisabled(true);
+
+      setTimeout(() => {
+        router.push(endpoints.home);
+      }, 6000);
     }
   }
 
@@ -89,7 +88,7 @@ function ResetPassword({ params: { token } }) {
               <FormInput type="password" name="confirmPassword" required minLength="6" maxLength="16"/>
             </FormField>
 
-            <FormButton type="submit">
+            <FormButton type="submit" disabled={ isBtnDisable }>
               Send
             </FormButton>
           </form>
