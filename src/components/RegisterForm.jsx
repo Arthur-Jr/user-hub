@@ -19,26 +19,26 @@ export default function RegisterForm({ registerUser }) {
         >
           <FormField>
             <FormLabel className="text-base sm:text-lg" htmlFor="username">username</FormLabel>
-            <FormInput className="p-2 sm:p-3" type="text" name="username" required minLength="3" maxLength="10"/>
+            <FormInput className="p-2" type="text" name="username" required minLength="3" maxLength="10"/>
           </FormField>
 
           <FormField>
             <FormLabel className="text-base sm:text-lg" htmlFor="email">email</FormLabel>
-            <FormInput className="p-2 sm:p-3" type="text" name="email" minLength="6" maxLength="30"/>
+            <FormInput className="p-2" type="text" name="email" minLength="6" maxLength="30"/>
             <FormMessage message="You can create a test account without email!"/>
           </FormField>
 
           <FormField>
             <FormLabel className="text-base sm:text-lg" htmlFor="password">password</FormLabel>
-            <FormInput className="p-2 sm:p-3" type="password" name="password" required minLength="6" maxLength="16"/>
+            <FormInput className="p-2" type="password" name="password" required minLength="6" maxLength="16"/>
           </FormField>
 
           <FormField>
             <FormLabel className="text-base sm:text-lg" htmlFor="confirmPassword">confirm password</FormLabel>
-            <FormInput className="p-2 sm:p-3" type="password" name="confirmPassword" required minLength="6" maxLength="16"/>
+            <FormInput className="p-2" type="password" name="confirmPassword" required minLength="6" maxLength="16"/>
           </FormField>
 
-          <FormButton type="submit" className="p-2 sm:p-3 text-lg sm:text-2xl">
+          <FormButton type="submit" className="p-2 text-lg sm:text-2xl">
             Register
           </FormButton>
         </form>
