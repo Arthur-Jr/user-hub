@@ -1,17 +1,17 @@
 'use client';
 
-import { FormButton } from "@/components/Form/FormButton";
-import { FormField } from "@/components/Form/FormField";
-import { FormInput } from "@/components/Form/FormInput";
-import { FormLabel } from "@/components/Form/FormLabel";
-import constants from "@/constants/data";
-import endpoints from "@/constants/endpoints";
-import handlePasswordSimilarity from "@/globalFuncs/passwordSimilarity";
-import getUserData from "@/requests/getUserData";
-import resetPassword from "@/requests/resetPassword";
+import { FormButton } from '@/components/Form/FormButton';
+import { FormField } from '@/components/Form/FormField';
+import { FormInput } from '@/components/Form/FormInput';
+import { FormLabel } from '@/components/Form/FormLabel';
+import endpoints from '@/constants/endpoints';
+import handlePasswordSimilarity from '@/globalFuncs/passwordSimilarity';
+import getUserData from '@/requests/getUserData';
+import logout from '@/requests/logout';
+import resetPassword from '@/requests/resetPassword';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 function ResetPassword({ params: { token } }) {
@@ -20,25 +20,28 @@ function ResetPassword({ params: { token } }) {
   const methods = useForm();
 
   useEffect(() => {
-    if (!token) {
-      localStorage.removeItem(constants.localStorageTokenName);
-      router.push(endpoints.home);
-      return;
-    }
+    const checkToken = async () => {
+      if (!token) {
+        await logout();
+        router.push(endpoints.home);
+        return;
+      }
+  
+      const { data } = jwtDecode(token);
+      if (!data.reset) {
+        await logout();
+        router.push(endpoints.home);
+        return;
+      }
 
-    const { data } = jwtDecode(token);
-    if (!data.reset) {
-      localStorage.removeItem(constants.localStorageTokenName);
-      router.push(endpoints.home);
-      return;
-    }
-
-    getUserData(token).then((result) => {
-      if (!result.username) {
-        localStorage.removeItem(constants.localStorageTokenName);
+      const user = await getUserData();
+      if (!user.username) {
+        await logout();
         router.push(endpoints.home);
       }
-    });
+    }
+
+    checkToken();
   }, [router, token]);
 
   const resetPass = async (userData) => {

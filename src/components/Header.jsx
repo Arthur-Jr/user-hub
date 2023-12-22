@@ -5,6 +5,8 @@ import constants from '@/constants/data';
 import endpoints from '@/constants/endpoints';
 import { appContext } from '@/context/AppProvider';
 import getUserData from '@/requests/getUserData';
+import logout from '@/requests/logout';
+import axios, { HttpStatusCode } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
@@ -26,9 +28,11 @@ function Header() {
     });
   }, [router, setUserData]);
 
-  const handleLogout = () => {
-    localStorage.removeItem(constants.localStorageTokenName);
-    router.push(endpoints.home);
+  const handleLogout = async () => {
+    const result = await logout();
+    if (result.status === HttpStatusCode.NoContent) {
+      router.push(endpoints.home);
+    } 
   }
 
   return (
