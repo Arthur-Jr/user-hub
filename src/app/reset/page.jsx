@@ -63,6 +63,7 @@ export default function Page() {
 
           <button
             type="submit"
+            disabled={ isLoading }
             className="text-2xl font-extrabold italic border-2 border-black p-3 w-[200px] uppercase text-white rounded-md hover:scale-105 bg-primary-color"
           >
             Send
@@ -70,9 +71,9 @@ export default function Page() {
         </form>
 
         { isLoading && 
-            <div className="flex items-center">
-              <Image src={ loadingImg } alt="loading" className="rounded-full" width={45} height={45} />
-            </div>
+          <div className="flex items-center">
+            <Image src={ loadingImg } alt="loading" className="rounded-full" width={45} height={45} />
+          </div>
         }
 
         { responseMsg.length > 0 && <span className="text-lg italic font-bold text-black text-center">{ responseMsg }</span> }
