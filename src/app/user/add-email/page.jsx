@@ -28,7 +28,7 @@ function AddEmail() {
     const result = await addEmail(newData);
 
     if (result.status === HttpStatusCode.Ok) {
-      setUserData({ ...userData, status: 1 });
+      setUserData({ ...userData, status: 1, email: newData.email });
       router.push(endpoints.projects);
     } else {
       setResponseMsg(result.data.message);
