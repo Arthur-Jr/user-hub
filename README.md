@@ -5,7 +5,7 @@ Projeto desenvolvido em next.js, onde consome uma API de gerenciamento de usuár
 
 <br>
 
-### [DEPLOY DO PROJETO!!!](https://user-hub-mocha.vercel.app) :eyes:
+### [DEPLOY DO PROJETO!!!](https://user-hub-kappa.vercel.app) :eyes:
 
 <br>
 
